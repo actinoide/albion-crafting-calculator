@@ -1,0 +1,19 @@
+{
+  "name": "albion-crafting-calculator",
+  "version": "1.0.0",
+  "main": "main.js",
+  "devDependencies": {
+    "electron": "^19.0.6"
+  },
+  "scripts": {
+    "start": "electron ."
+  },
+  "author": "actinoide",
+  "license": "ISC",
+  "description": "",
+  "dependencies": {
+    "electron-fetch": "^1.7.4",
+    "node-fetch": "^3.2.10",
+    "path": "^0.12.7"
+  }
+}
