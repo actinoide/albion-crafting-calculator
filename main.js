@@ -11,6 +11,7 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
 Object.defineProperty(exports, "__esModule", { value: true });
 const electron_1 = require("electron");
 const path_1 = require("path");
+const readItemFiles_1 = require("./readItemFiles");
 let winid = 0;
 const CreateWindow = () => {
     const win = new electron_1.BrowserWindow({
@@ -32,7 +33,8 @@ electron_1.app.whenReady().then(() => {
     });
 });
 electron_1.ipcMain.handle("onContentChanged", (event, newContent) => __awaiter(void 0, void 0, void 0, function* () {
-    console.log(newContent);
+    let itemData = (0, readItemFiles_1.readItemFiles)();
+    console.log(itemData);
 }));
 electron_1.app.on("window-all-closed", () => {
     if (process.platform !== 'darwin')
