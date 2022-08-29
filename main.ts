@@ -1,7 +1,7 @@
 import { app, BrowserWindow, ipcMain } from "electron"
 import { join } from "path"
 import { makeApiCall } from "./apiCalls"
-import {readItemFiles} from "./readItemFiles"
+import { readItemFiles } from "./readItemFiles"
 
 let winid = 0
 
