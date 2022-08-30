@@ -4,7 +4,7 @@ import { makeApiCall } from "./apiCalls"
 import { readItemFiles } from "./readItemFiles"
 
 let winid = 0
-
+//declaring global for autocomplete with ipc
 declare global {
   interface Window {
     electronAPI: {
@@ -12,7 +12,7 @@ declare global {
     }
   }
 }
-
+// creates the window used by the process
 const CreateWindow = () => {
   const win = new BrowserWindow({
     width: 800,
@@ -26,7 +26,7 @@ const CreateWindow = () => {
   win.loadFile('./src/html_css/index.html')
 }
 
-
+//loads a window when necesary
 app.whenReady().then(() => {
   CreateWindow()
   app.on('activate', () => {
@@ -34,12 +34,13 @@ app.whenReady().then(() => {
   })
 })
 
-
+//handles the "onContentChanged" event from ipc
 ipcMain.handle("onContentChanged", async (event, newContent) => {
   let itemData = readItemFiles()
   console.log(itemData)
 })
 
+//closes the program when all windows are closed
 app.on("window-all-closed", () => {
   if (process.platform !== 'darwin') app.quit()
 })
