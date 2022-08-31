@@ -1,2 +1,3 @@
-node_modules
-JS_out/**
+/node_modules
+/JS_out/**
+/dev_files/Item_categories
