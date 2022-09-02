@@ -14,14 +14,9 @@ split.forEach((value, index, array) => {
 })
 
 output = output.concat("]")
-JSON.parse(output)
 
 fs.writeFileSync(join(__dirname, "../dev_files/Item_categories.json"), output)
 
-//fs.readFile(join(__dirname, "../dev_files/Items.json"),(err,data)=>{
-//    console.log(JSON.parse(data.toString()))
-//})
 
-let test = fs.readFileSync(join(__dirname, "../dev_files/Items.json"), "utf8")
-let test3 = JSON.parse(test)
-//console.log(test3)
+let json = fs.readFileSync(join(__dirname, "../dev_files/Items.json"), "utf8")
+let json2 = JSON.parse(json)
