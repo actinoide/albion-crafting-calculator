@@ -37,5 +37,8 @@ Item_categories.addEventListener("input",async ()=>{
 
 interface itemType {
   name: string
-  items: string[]
+  items: {
+    name:string,
+    translatedName:string
+  }[]
 }

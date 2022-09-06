@@ -16,7 +16,8 @@ declare global {
 
 let winid = 0
 let win: BrowserWindow
-let ItemFiles = readItemFiles()
+let ItemFiles = readItemFiles("./dev_files/Item_categories.json") as itemType[]
+let translationFiles = readItemFiles("./dev_files/ItemList.json")
 
 // creates the window used by the process
 const CreateWindow = () => {
@@ -58,11 +59,17 @@ ipcMain.handle('onload', (event) => {
 })
 
 ipcMain.handle('onItemCategorySelected', (event, category: string) => {
-  category = category.replace(" ","_")
+  category = category.replace(" ", "_")
   console.log(category);
   let correctCategory = ItemFiles.find((value) => {
-    if(value.name == category)return true
+    if (value.name == category) return true
     else return false
   })
-  return correctCategory?.items
+  let TranslatedItems = correctCategory?.items.forEach((item) => {
+    let translatedItem = translationFiles.find((value: any) => {
+      if (value.LocalizationNameVariable == item) return true
+      else return false
+    })
+    return translatedItem.LocalizedNames.ENUS
+  })
 })
