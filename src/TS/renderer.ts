@@ -1,4 +1,9 @@
 const tier_equiv = document.getElementById("tier-equiv") as HTMLSelectElement
+const Item_categories = document.getElementById("category") as HTMLSelectElement
+const Items = document.getElementById("Items")as HTMLSelectElement
+const item_categories_from_main = window.electronAPI.onload()
+
+
 if (!tier_equiv) {
   console.log("tier-equiv not found")
 } else {
@@ -7,9 +12,6 @@ if (!tier_equiv) {
   })
 }
 
-
-const Item_categories = document.getElementById("category") as HTMLSelectElement
-const item_categories_from_main = window.electronAPI.onload()
 
 item_categories_from_main.then((value) => {
   value.forEach((type) => {
@@ -21,6 +23,16 @@ item_categories_from_main.then((value) => {
   })
 })
 
+Item_categories.addEventListener("input",async ()=>{
+  let items = await window.electronAPI.onItemCategorySelected(Item_categories.value)
+  if(!items)return
+  items.forEach((value)=>{
+    let element = document.createElement("option")
+    element.value = value
+    element.text = value
+    Items.add(element)
+  })
+})
 
 
 interface itemType {

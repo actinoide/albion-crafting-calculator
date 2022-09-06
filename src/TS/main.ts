@@ -9,12 +9,14 @@ declare global {
     electronAPI: {
       onContentChanged: (newContent: string | null | undefined) => Promise<string>
       onload: () => Promise<itemType[]>
+      onItemCategorySelected: (category: string) => Promise<string[]>
     }
   }
 }
 
 let winid = 0
 let win: BrowserWindow
+let ItemFiles = readItemFiles()
 
 // creates the window used by the process
 const CreateWindow = () => {
@@ -52,5 +54,15 @@ app.on("window-all-closed", () => {
 })
 
 ipcMain.handle('onload', (event) => {
-  return readItemFiles()
+  return ItemFiles
+})
+
+ipcMain.handle('onItemCategorySelected', (event, category: string) => {
+  category = category.replace(" ","_")
+  console.log(category);
+  let correctCategory = ItemFiles.find((value) => {
+    if(value.name == category)return true
+    else return false
+  })
+  return correctCategory?.items
 })
