@@ -32,6 +32,7 @@ getcraftableitems(Items.items.mount)
 let craftableitemcategories: string[] = []
 
 craftableitems.forEach(element => {
+  if(element.shopsubcategory1.includes("UNIQUE"))return
   if (!craftableitemcategories.includes(element.shopsubcategory1)) {
     if (!craftableitemcategories) {
       craftableitemcategories = element.shopsubcategory1
@@ -74,7 +75,7 @@ craftableitemcategories.forEach(cat => {
     if (Item.uniquename.includes("PROTOTYPE")) return
     if (Item.uniquename.includes("VANITY")) return
     if (Item.uniquename.includes("TEST")) return
-    if (Item.uniquename.includes("UNIQUE_MOUNT")) return
+    if (Item.uniquename.includes("UNIQUE")) return
     let translatedname = TranslatedItems.find((value: any) => {
       if (value.LocalizationNameVariable == ("ITEMS_" + Item.uniquename)) return true
       else return false
