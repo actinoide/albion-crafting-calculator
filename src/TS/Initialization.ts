@@ -6,6 +6,7 @@ import { join } from "path"
 // THIS FILE IS A MESS 
 
 let Items = JSON.parse(fs.readFileSync(join(__dirname, "../dev_files/Items.json"), "utf8"))
+let TranslatedItems = JSON.parse(fs.readFileSync(join(__dirname, "../dev_files/ItemList.json"), "utf8"))
 
 Items.items.consumableitem
 Items.items.equipmentitem
@@ -52,18 +53,40 @@ Items.items.shopcategories.shopcategory.forEach((category: any) => {
     });
   }
 });
+
 interface sorteditemtype {
   name: string
-  items: string[]
+  items: {
+    name: string,
+    translatedName: string
+  }[]
 }
 
 let sorteditems: sorteditemtype[]// = [{ "name": "", "items": [] }]
 
 craftableitemcategories.forEach(cat => {
-  let temps: string[] = []
+  let temps: {
+    name: string,
+    translatedName: string
+  }[] = []
   craftableitems.forEach(Item => {
+    if (Item.uniquename.includes("DEBUG")) return
+    if (Item.uniquename.includes("PROTOTYPE")) return
+    if (Item.uniquename.includes("VANITY")) return
+    if (Item.uniquename.includes("TEST")) return
+    if(Item.uniquename.includes("UNIQUE_MOUNT") )return
+    let translatedname = TranslatedItems.find((value: any) => {
+      if (value.LocalizationNameVariable == ("ITEMS_" + Item.uniquename)) return true
+      else return false
+    })
     if (Item.shopsubcategory1 === cat) {
-      temps.push(Item.uniquename)
+      try {
+        temps.push({ name: Item.uniquename, translatedName: translatedname.LocalizedNames.ENUS })
+      }
+      catch {
+
+      }
+
     }
   });
   if (!sorteditems) {
