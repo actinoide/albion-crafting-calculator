@@ -74,19 +74,13 @@ craftableitemcategories.forEach(cat => {
     if (Item.uniquename.includes("PROTOTYPE")) return
     if (Item.uniquename.includes("VANITY")) return
     if (Item.uniquename.includes("TEST")) return
-    if(Item.uniquename.includes("UNIQUE_MOUNT") )return
+    if (Item.uniquename.includes("UNIQUE_MOUNT")) return
     let translatedname = TranslatedItems.find((value: any) => {
       if (value.LocalizationNameVariable == ("ITEMS_" + Item.uniquename)) return true
       else return false
     })
     if (Item.shopsubcategory1 === cat) {
-      try {
-        temps.push({ name: Item.uniquename, translatedName: translatedname.LocalizedNames.ENUS })
-      }
-      catch {
-
-      }
-
+      temps.push({ name: Item.uniquename, translatedName: translatedname.LocalizedNames.ENUS })
     }
   });
   if (!sorteditems) {

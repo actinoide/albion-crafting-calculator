@@ -24,12 +24,15 @@ item_categories_from_main.then((value) => {
 })
 
 Item_categories.addEventListener("input",async ()=>{
+  while(Items.length>0){
+    Items.remove(0)
+  }
   let items = await window.electronAPI.onItemCategorySelected(Item_categories.value)
   if(!items)return
-  items.forEach((value)=>{
+  items.items.forEach((value)=>{
     let element = document.createElement("option")
-    element.value = value
-    element.text = value
+    element.value = value.name
+    element.text = value.translatedName
     Items.add(element)
   })
 })

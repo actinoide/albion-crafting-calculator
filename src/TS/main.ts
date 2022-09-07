@@ -9,7 +9,7 @@ declare global {
     electronAPI: {
       onContentChanged: (newContent: string | null | undefined) => Promise<string>
       onload: () => Promise<itemType[]>
-      onItemCategorySelected: (category: string) => Promise<string[]>
+      onItemCategorySelected: (category: string) => Promise<itemType>
     }
   }
 }
@@ -60,16 +60,8 @@ ipcMain.handle('onload', (event) => {
 
 ipcMain.handle('onItemCategorySelected', (event, category: string) => {
   category = category.replace(" ", "_")
-  console.log(category);
-  let correctCategory = ItemFiles.find((value) => {
-    if (value.name == category) return true
+  return ItemFiles.find((value)=>{
+    if(value.name == category) return true
     else return false
-  })
-  let TranslatedItems = correctCategory?.items.forEach((item) => {
-    let translatedItem = translationFiles.find((value: any) => {
-      if (value.LocalizationNameVariable == item) return true
-      else return false
-    })
-    return translatedItem.LocalizedNames.ENUS
   })
 })
