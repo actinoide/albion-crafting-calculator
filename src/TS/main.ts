@@ -45,10 +45,6 @@ app.whenReady().then(() => {
   })
 })
 
-//handles the "onContentChanged" event from ipc
-ipcMain.handle("onContentChanged", async (event, newContent) => {
-})
-
 //closes the program when all windows are closed
 app.on("window-all-closed", () => {
   if (process.platform !== 'darwin') app.quit()

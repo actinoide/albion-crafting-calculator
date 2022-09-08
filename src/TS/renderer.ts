@@ -1,17 +1,6 @@
-const tier_equiv = document.getElementById("tier-equiv") as HTMLSelectElement
 const Item_categories = document.getElementById("category") as HTMLSelectElement
-const Items = document.getElementById("Items")as HTMLSelectElement
+const Items = document.getElementById("Items") as HTMLSelectElement
 const item_categories_from_main = window.electronAPI.onload()
-
-
-if (!tier_equiv) {
-  console.log("tier-equiv not found")
-} else {
-  tier_equiv.addEventListener("input", async () => {
-    await window.electronAPI.onContentChanged(tier_equiv.value)
-  })
-}
-
 
 item_categories_from_main.then((value) => {
   value.forEach((type) => {
@@ -23,13 +12,13 @@ item_categories_from_main.then((value) => {
   })
 })
 
-Item_categories.addEventListener("input",async ()=>{
-  while(Items.length>0){
+Item_categories.addEventListener("input", async () => {
+  while (Items.length > 0) {
     Items.remove(0)
   }
   let items = await window.electronAPI.onItemCategorySelected(Item_categories.value)
-  if(!items)return
-  items.items.forEach((value)=>{
+  if (!items) return
+  items.items.forEach((value) => {
     let element = document.createElement("option")
     element.value = value.name
     element.text = value.translatedName
@@ -41,7 +30,7 @@ Item_categories.addEventListener("input",async ()=>{
 interface itemType {
   name: string
   items: {
-    name:string,
-    translatedName:string
+    name: string,
+    translatedName: string
   }[]
 }
