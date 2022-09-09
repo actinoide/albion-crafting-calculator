@@ -10,6 +10,7 @@ declare global {
       onContentChanged: (newContent: string | null | undefined) => Promise<string>
       onload: () => Promise<itemType[]>
       onItemCategorySelected: (category: string) => Promise<itemType>
+      onCalculateBtnClick: (tierequiv: number, category: string, item: { name: string, translatedname: string | undefined }) => Promise<void>
     }
   }
 }
@@ -56,8 +57,28 @@ ipcMain.handle('onload', (event) => {
 
 ipcMain.handle('onItemCategorySelected', (event, category: string) => {
   category = category.replace(" ", "_")
-  return ItemFiles.find((value)=>{
-    if(value.name == category) return true
+  return ItemFiles.find((value) => {
+    if (value.name == category) return true
     else return false
   })
+})
+
+ipcMain.handle('onCalculateBtnClick', (event, tierequiv: number, category: string, item: { name: string, translatedName: string }) => {
+  console.log('tierequiv:' + tierequiv + "category:" + category + "item")
+
+  if ((tierequiv - 3) >= 4) {
+
+  }
+  if ((tierequiv - 2) >= 4 && (tierequiv - 2) <= 8) {
+
+  }
+  if ((tierequiv - 1) >= 4 && (tierequiv - 1) <= 8) {
+
+  }
+  if (tierequiv >= 4 && tierequiv <= 8) {
+
+  }
+  if (tierequiv < 4) {
+
+  }
 })

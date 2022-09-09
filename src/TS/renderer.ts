@@ -1,6 +1,8 @@
 const Item_categories = document.getElementById("category") as HTMLSelectElement
 const Items = document.getElementById("Items") as HTMLSelectElement
 const item_categories_from_main = window.electronAPI.onload()
+const Calculatebtn = document.getElementById("Calculatebtn") as HTMLButtonElement
+const tierequiv = document.getElementById("tier-equiv") as HTMLSelectElement
 
 item_categories_from_main.then((value) => {
   value.forEach((type) => {
@@ -26,7 +28,6 @@ Item_categories.addEventListener("input", async () => {
   })
 })
 
-
 interface itemType {
   name: string
   items: {
@@ -34,3 +35,7 @@ interface itemType {
     translatedName: string
   }[]
 }
+
+Calculatebtn.addEventListener("click",(ev:MouseEvent)=>{
+  window.electronAPI.onCalculateBtnClick(tierequiv.value as unknown as number,Item_categories.value,{name:Items.value,translatedname:Items.selectedOptions.item(Items.selectedIndex)?.text})
+})
