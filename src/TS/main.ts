@@ -10,7 +10,7 @@ declare global {
       onContentChanged: (newContent: string | null | undefined) => Promise<string>
       onload: () => Promise<itemType[]>
       onItemCategorySelected: (category: string) => Promise<itemType>
-      onCalculateBtnClick: (tierequiv: number, category: string, item: { name: string, translatedname: string | undefined }) => Promise<void>
+      onCalculateBtnClick: (tierequiv: number, category: string, item: string) => Promise<void>
     }
   }
 }
@@ -18,7 +18,6 @@ declare global {
 let winid = 0
 let win: BrowserWindow
 let ItemFiles = readItemFiles("./dev_files/Item_categories.json") as itemType[]
-let translationFiles = readItemFiles("./dev_files/ItemList.json")
 
 // creates the window used by the process
 const CreateWindow = () => {
@@ -63,8 +62,16 @@ ipcMain.handle('onItemCategorySelected', (event, category: string) => {
   })
 })
 
-ipcMain.handle('onCalculateBtnClick', (event, tierequiv: number, category: string, item: { name: string, translatedName: string }) => {
-  console.log('tierequiv:' + tierequiv + "category:" + category + "item")
+ipcMain.handle('onCalculateBtnClick', (event, tierequiv: number, category: string, item: string) => {
+  let translatedName: string = ""
+  ItemFiles.find((element) => {
+    element.items.forEach((element2) => {
+      if (element2.name == item) {
+        translatedName = element2.translatedName
+      }
+    })
+  })
+  console.log('tierequiv:' + tierequiv + "  category:" + category + "  item" + item + "   " + translatedName)
 
   if ((tierequiv - 3) >= 4) {
 

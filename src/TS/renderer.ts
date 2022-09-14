@@ -36,6 +36,6 @@ interface itemType {
   }[]
 }
 
-Calculatebtn.addEventListener("click",(ev:MouseEvent)=>{
-  window.electronAPI.onCalculateBtnClick(tierequiv.value as unknown as number,Item_categories.value,{name:Items.value,translatedname:Items.selectedOptions.item(Items.selectedIndex)?.text})
+Calculatebtn.addEventListener("click", (ev: MouseEvent) => {
+  window.electronAPI.onCalculateBtnClick(tierequiv.value as unknown as number, Item_categories.value, Items.value)
 })
