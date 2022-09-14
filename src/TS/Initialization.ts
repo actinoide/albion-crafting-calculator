@@ -32,7 +32,7 @@ getcraftableitems(Items.items.mount)
 let craftableitemcategories: string[] = []
 
 craftableitems.forEach(element => {
-  if(element.shopsubcategory1.includes("UNIQUE"))return
+  if(element.shopsubcategory1.includes("unique"))return
   if (!craftableitemcategories.includes(element.shopsubcategory1)) {
     if (!craftableitemcategories) {
       craftableitemcategories = element.shopsubcategory1

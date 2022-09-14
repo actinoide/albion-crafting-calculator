@@ -10,7 +10,7 @@ declare global {
       onContentChanged: (newContent: string | null | undefined) => Promise<string>
       onload: () => Promise<itemType[]>
       onItemCategorySelected: (category: string) => Promise<itemType>
-      onCalculateBtnClick: (tierequiv: number, category: string, item: string) => Promise<void>
+      onCalculateBtnClick: (enchantmentequiv: number, category: string, item: string) => Promise<void>
     }
   }
 }
@@ -62,7 +62,7 @@ ipcMain.handle('onItemCategorySelected', (event, category: string) => {
   })
 })
 
-ipcMain.handle('onCalculateBtnClick', (event, tierequiv: number, category: string, item: string) => {
+ipcMain.handle('onCalculateBtnClick', (event, enchantmentequiv: number, category: string, item: string) => {
   let translatedName: string = ""
   ItemFiles.find((element) => {
     element.items.forEach((element2) => {
@@ -71,21 +71,6 @@ ipcMain.handle('onCalculateBtnClick', (event, tierequiv: number, category: strin
       }
     })
   })
-  console.log('tierequiv:' + tierequiv + "  category:" + category + "  item" + item + "   " + translatedName)
+  console.log('tierequiv:' + enchantmentequiv + "  category:" + category + "  item" + item + "   " + translatedName)
 
-  if ((tierequiv - 3) >= 4) {
-
-  }
-  if ((tierequiv - 2) >= 4 && (tierequiv - 2) <= 8) {
-
-  }
-  if ((tierequiv - 1) >= 4 && (tierequiv - 1) <= 8) {
-
-  }
-  if (tierequiv >= 4 && tierequiv <= 8) {
-
-  }
-  if (tierequiv < 4) {
-
-  }
 })

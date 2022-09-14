@@ -2,7 +2,7 @@ const Item_categories = document.getElementById("category") as HTMLSelectElement
 const Items = document.getElementById("Items") as HTMLSelectElement
 const item_categories_from_main = window.electronAPI.onload()
 const Calculatebtn = document.getElementById("Calculatebtn") as HTMLButtonElement
-const tierequiv = document.getElementById("tier-equiv") as HTMLSelectElement
+const enchantmentequiv = document.getElementById("enchantment-equiv") as HTMLSelectElement
 
 item_categories_from_main.then((value) => {
   value.forEach((type) => {
@@ -33,9 +33,17 @@ interface itemType {
   items: {
     name: string,
     translatedName: string
+    craftingrequirements:{
+      silver:number,
+      craftingfocus:number,
+      craftresource:{
+        uniquename:string,
+        count:number
+      }[]
+    }
   }[]
 }
 
 Calculatebtn.addEventListener("click", (ev: MouseEvent) => {
-  window.electronAPI.onCalculateBtnClick(tierequiv.value as unknown as number, Item_categories.value, Items.value)
+  window.electronAPI.onCalculateBtnClick(enchantmentequiv.value as unknown as number, Item_categories.value, Items.value)
 })
