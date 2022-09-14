@@ -60,6 +60,14 @@ interface sorteditemtype {
   items: {
     name: string,
     translatedName: string
+    craftingrequirements:{
+      silver:number,
+      craftingfocus:number,
+      craftresource:{
+        uniquename:string,
+        count:number
+      }[]
+    }
   }[]
 }
 
@@ -69,6 +77,14 @@ craftableitemcategories.forEach(cat => {
   let temps: {
     name: string,
     translatedName: string
+    craftingrequirements:{
+      silver:number,
+      craftingfocus:number,
+      craftresource:{
+        uniquename:string,
+        count:number
+      }[]
+    }
   }[] = []
   craftableitems.forEach(Item => {
     if (Item.uniquename.includes("DEBUG")) return
@@ -81,7 +97,7 @@ craftableitemcategories.forEach(cat => {
       else return false
     })
     if (Item.shopsubcategory1 === cat) {
-      temps.push({ name: Item.uniquename, translatedName: translatedname.LocalizedNames.ENUS })
+      temps.push({ name: Item.uniquename, translatedName: translatedname.LocalizedNames.ENUS, craftingrequirements:Item.craftingrequirements})
     }
   });
   if (!sorteditems) {
