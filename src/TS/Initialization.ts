@@ -32,7 +32,7 @@ getcraftableitems(Items.items.mount)
 let craftableitemcategories: string[] = []
 
 craftableitems.forEach(element => {
-  if(element.shopsubcategory1.includes("unique"))return
+  if (element.shopsubcategory1.includes("unique")) return
   if (!craftableitemcategories.includes(element.shopsubcategory1)) {
     if (!craftableitemcategories) {
       craftableitemcategories = element.shopsubcategory1
@@ -55,34 +55,61 @@ Items.items.shopcategories.shopcategory.forEach((category: any) => {
   }
 });
 
-interface sorteditemtype {
+
+interface itemType {
   name: string
   items: {
     name: string,
     translatedName: string
-    craftingrequirements:{
-      silver:number,
-      craftingfocus:number,
-      craftresource:{
-        uniquename:string,
-        count:number
+    craftingrequirements: {
+      silver: number,
+      craftingfocus: number,
+      craftresource: {
+        uniquename: string,
+        count: number
+      }[]
+    }
+    enchantments: {
+      enchantment: {
+        enchantmentlevel: number,
+        craftingrequirements: {
+          silver: number,
+          craftingfocus: number,
+          craftresource: {
+            uniquename: string,
+            count: number
+          }[]
+        }
       }[]
     }
   }[]
 }
 
-let sorteditems: sorteditemtype[]// = [{ "name": "", "items": [] }]
+let sorteditems: itemType[]// = [{ "name": "", "items": [] }]
 
 craftableitemcategories.forEach(cat => {
   let temps: {
     name: string,
     translatedName: string
-    craftingrequirements:{
-      silver:number,
-      craftingfocus:number,
-      craftresource:{
-        uniquename:string,
-        count:number
+    craftingrequirements: {
+      silver: number,
+      craftingfocus: number,
+      craftresource: {
+        uniquename: string,
+        count: number
+      }[]
+    }
+    enchantments: {
+      enchantment: {
+        enchantmentlevel: number,
+        craftingrequirements: {
+          silver: number,
+          craftingfocus: number,
+          craftresource: {
+            uniquename: string,
+            count: number
+          }[]
+        }
       }[]
     }
   }[] = []
@@ -97,7 +124,7 @@ craftableitemcategories.forEach(cat => {
       else return false
     })
     if (Item.shopsubcategory1 === cat) {
-      temps.push({ name: Item.uniquename, translatedName: translatedname.LocalizedNames.ENUS, craftingrequirements:Item.craftingrequirements})
+      temps.push({ name: Item.uniquename, translatedName: translatedname.LocalizedNames.ENUS, craftingrequirements: Item.craftingrequirements ,enchantments:Item.enchantments})
     }
   });
   if (!sorteditems) {

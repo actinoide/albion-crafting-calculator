@@ -26,5 +26,18 @@ interface itemType {
         count: number
       }[]
     }
+    enchantments: {
+      enchantment: {
+        enchantmentlevel: number,
+        craftingrequirements: {
+          silver: number,
+          craftingfocus: number,
+          craftresource: {
+            uniquename: string,
+            count: number
+          }[]
+        }
+      }[]
+    }
   }[]
 }

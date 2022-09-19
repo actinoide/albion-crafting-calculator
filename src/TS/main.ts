@@ -72,5 +72,5 @@ ipcMain.handle('onCalculateBtnClick', (event, enchantmentequiv: number, category
     })
   })
   console.log('tierequiv:' + enchantmentequiv + "  category:" + category + "  item" + item + "   " + translatedName)
-
+  
 })
