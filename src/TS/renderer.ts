@@ -28,22 +28,6 @@ Item_categories.addEventListener("input", async () => {
   })
 })
 
-interface itemType {
-  name: string
-  items: {
-    name: string,
-    translatedName: string
-    craftingrequirements:{
-      silver:number,
-      craftingfocus:number,
-      craftresource:{
-        uniquename:string,
-        count:number
-      }[]
-    }
-  }[]
-}
-
 Calculatebtn.addEventListener("click", (ev: MouseEvent) => {
   window.electronAPI.onCalculateBtnClick(enchantmentequiv.value as unknown as number, Item_categories.value, Items.value)
 })
