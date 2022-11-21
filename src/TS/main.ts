@@ -3,7 +3,8 @@ import { join } from "path"
 import { makeApiCall } from "./apiCalls"
 import { readItemFiles } from "./readItemFiles"
 import { itemType } from "./structs/itemType"
-import { craftRessource } from "./structs/craftRessource"
+import { translatedRessource } from "./structs/translatedRessource"
+import { calculateNeededRessources } from "./calculateNeededRessources"
 
 //declaring global for autocomplete with ipc
 declare global {
@@ -12,7 +13,7 @@ declare global {
       onContentChanged: (newContent: string | null | undefined) => Promise<string>
       onload: () => Promise<itemType[]>
       onItemCategorySelected: (category: string) => Promise<itemType>
-      onCalculateBtnClick: (enchantmentequiv: number, category: string, item: string) => Promise<void>
+      onCalculateBtnClick: (enchantmentequiv: number, category: string, item: string) => Promise<translatedRessource[]>
     }
   }
 }
@@ -76,45 +77,8 @@ ipcMain.handle('onCalculateBtnClick', (event, enchantmentequiv: number, category
     if (testitem.name == item) return true
     else return false
   })
-  console.log('tierequiv:' + enchantmentequiv + "  category:" + category + "  item" + item + "   " + completeItem?.translatedName)
-  //if item shouldnt be enchanted or can't be enchanted 
-  if (!completeItem?.enchantments || enchantmentequiv == 0 || completeItem?.enchantments.enchantment.length == 0) {
-    console.log("enchantmentequiv is zero or item can not be enchanted");
-    console.log(completeItem?.enchantments);
-    let neededRessources: craftRessource[] = []
-    console.log(completeItem);
-    if (!completeCategory) console.log("complete category doesnt exist");
-    if (!completeItem) console.log("complete item doesnt exist");
-    console.log(completeItem?.craftingrequirements.craftresource);
-    if(completeItem?.craftingrequirements.craftresource.length == 1){
-      let element = completeItem.craftingrequirements.craftresource.pop()
-      if(!element)return
-      console.log(element.uniquename + element.count);
-      neededRessources.push({
-        name: element.uniquename, count: element.count, translatedName: TranslationFiles.find((element2: any) => {
-        //@ts-ignore
-          if (element2.uniqueName == element.uniquename) {
-          //@ts-ignore
-            console.log("log succesfull  " + element.uniquename);
-            return true
-          }
-          else return false
-        }).LocalizedNames.ENUS
-      })
-    }
-    else {
-      completeItem?.craftingrequirements.craftresource.forEach(element => {
-      console.log(element.uniquename + element.count);
-      neededRessources.push({
-        name: element.uniquename, count: element.count, translatedName: TranslationFiles.find((element2: any) => {
-          if (element2.uniqueName == element.uniquename) {
-            console.log("log succesfull  " + element.uniquename);
-            return true
-          }
-          else return false
-        }).LocalizedNames.ENUS
-      })
-    })};
-    console.log(neededRessources);
-  }
+  if (!completeItem) throw "item not found"
+  let result = calculateNeededRessources(enchantmentequiv, completeItem, TranslationFiles)
+  console.log(result);
+  return result;
 })
