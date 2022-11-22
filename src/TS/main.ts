@@ -5,6 +5,8 @@ import { readItemFiles } from "./readItemFiles"
 import { itemType } from "./structs/itemType"
 import { translatedRessource } from "./structs/translatedRessource"
 import { calculateNeededRessources } from "./calculateNeededRessources"
+import { item } from "./structs/item"
+import { calculateAlternative } from "./calculateAlternatives"
 
 //declaring global for autocomplete with ipc
 declare global {
@@ -13,7 +15,7 @@ declare global {
       onContentChanged: (newContent: string | null | undefined) => Promise<string>
       onload: () => Promise<itemType[]>
       onItemCategorySelected: (category: string) => Promise<itemType>
-      onCalculateBtnClick: (enchantmentequiv: number, category: string, item: string) => Promise<translatedRessource[]>
+      onCalculateBtnClick: (enchantmentequiv: number, category: string, item: string) => Promise<translatedRessource[][][]>
     }
   }
 }
@@ -66,7 +68,7 @@ ipcMain.handle('onItemCategorySelected', (event, category: string) => {
   })
 })
 
-ipcMain.handle('onCalculateBtnClick', (event, enchantmentequiv: number, category: string, item: string) => {
+ipcMain.handle('onCalculateBtnClick', (event, enchantmentequiv: number, category: string, inputItem: string) => {
   //looks up category and item based on their names
   category = category.replace(" ", "_")
   let completeCategory = ItemFiles.find((testitem) => {
@@ -74,11 +76,13 @@ ipcMain.handle('onCalculateBtnClick', (event, enchantmentequiv: number, category
     else return false
   })
   let completeItem = completeCategory?.items.find((testitem) => {
-    if (testitem.name == item) return true
+    if (testitem.name == inputItem) return true
     else return false
   })
-  if (!completeItem) throw "item not found"
-  let result = calculateNeededRessources(enchantmentequiv, completeItem, TranslationFiles)
-  console.log(result);
-  return result;
+  if (!completeItem) throw Error("item not found")
+  if (!completeCategory) throw Error("cat not found")
+  let results: translatedRessource[][][] = []
+  results = calculateAlternative(completeItem, completeCategory, enchantmentequiv, TranslationFiles)
+  console.log(results);
+  return results;
 })

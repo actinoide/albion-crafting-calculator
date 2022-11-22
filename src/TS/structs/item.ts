@@ -1,6 +1,5 @@
 import { craftingrequirement } from "./craftingrequirement";
 import { craftResource } from "./craftResource";
-import { translatedRessource } from "./translatedRessource";
 
 
 export interface item {

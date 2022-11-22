@@ -1,33 +1,46 @@
 .grid {
   display: grid;
+  columns: 2;
 }
-.enchanment-equiv-text{
+
+.enchanment-equiv-text {
   grid-column: 1;
   grid-row: 1;
-  width: 50%;
 }
-.enchantment-equiv{
+
+.enchantment-equiv {
   grid-column: 2;
   grid-row: 1;
-  width: 50%;
 }
-.category-text{
+
+.category-text {
   grid-column: 1;
   grid-row: 2;
-  width: 50%;
 }
-.category{
+
+.category {
   grid-column: 2;
   grid-row: 2;
-  width: 50%;
 }
-.Item-text{
+
+.Item-text {
   grid-column: 1;
   grid-row: 3;
-  width: 50%;
 }
-.Items{
+
+.Items {
   grid-column: 2;
   grid-row: 3;
-  width: 50%;
+}
+
+.subItem {
+  grid-column: 1;
+}
+
+.subBox {
+  grid-column: 2;
+}
+.subWide{
+  grid-column-start: 1;
+  grid-column-end: 2;
 }

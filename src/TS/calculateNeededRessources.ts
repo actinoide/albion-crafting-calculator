@@ -5,8 +5,10 @@ import { item } from "./structs/item"
 import { craftingrequirement } from "./structs/craftingrequirement"
 import { craftResource } from "./structs/craftResource"
 
-export let calculateNeededRessources = (enchantmentequiv: number, completeItem: item, TranslationFiles: any) => {
+export let calculateNeededRessources = (enchantmentequiv: number, completeItem: item | undefined, TranslationFiles: any) => {
   let neededRessources: translatedRessource[][] = []
+  if (!completeItem) throw Error("Item in calculateNeededRessources doesnt exist")
+  console.log(enchantmentequiv);
   if (!completeItem?.enchantments || enchantmentequiv == 0 || completeItem?.enchantments.enchantment.length == 0) {
     //calculate without enchantments
     calculateCraftingRequierments(TranslationFiles, completeItem.craftingrequirements, neededRessources)
@@ -58,12 +60,12 @@ let calculateCraftingRessources = (TranslationFiles: any, craftresource: craftRe
 let writeNeededRessources = (TranslationFiles: any, element: { uniquename: string, count: number } | { uniquename: string, count: number }[], neededRessources: translatedRessource[][]) => {
   let tempRessources: translatedRessource[] = []
   if (Array.isArray(element)) {
-    element.forEach((value)=>{
-      tempRessources.push(reformatRessources(value,TranslationFiles)) 
+    element.forEach((value) => {
+      tempRessources.push(reformatRessources(value, TranslationFiles))
     })
   }
-  else{
-    tempRessources.push(reformatRessources(element,TranslationFiles))
+  else {
+    tempRessources.push(reformatRessources(element, TranslationFiles))
   }
   neededRessources.push(tempRessources)
 }
