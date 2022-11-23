@@ -4,7 +4,8 @@ const item_categories_from_main = window.electronAPI.onload()
 const findbtn = document.getElementById("findbtn") as HTMLButtonElement
 const enchantmentequiv = document.getElementById("enchantment-equiv") as HTMLSelectElement
 const container = document.getElementById("container") as HTMLDivElement
-let CalculatePrizeButton = document.getElementById("CalculatePrizeButton")
+const CalculatePrizeButton = document.getElementById("CalculatePrizeButton") as HTMLButtonElement
+const outContainer = document.getElementById("outContainer") as HTMLDivElement
 
 item_categories_from_main.then((value) => {
   value.forEach((type) => {
@@ -100,4 +101,19 @@ CalculatePrizeButton?.addEventListener("click", (ev: MouseEvent) => {
     index++
   }
   console.log(costs);
+  while (0 < outContainer.children.length) {
+    if (outContainer.firstChild) {
+      outContainer.removeChild(outContainer.firstChild)
+    }
+  }
+  costs.forEach((cost) => {
+    let tierElement = document.createElement("div")
+    tierElement.textContent = cost.tier + ":"
+    tierElement.className= "subItem"
+    let numberElemenent = document.createElement("div")
+    numberElemenent.textContent = cost.cost as unknown as string
+    numberElemenent.className = "subBox"
+    outContainer.appendChild(tierElement)
+    outContainer.appendChild(numberElemenent)
+  })
 })
