@@ -8,7 +8,6 @@ import { craftResource } from "./structs/craftResource"
 export let calculateNeededRessources = (enchantmentequiv: number, completeItem: item | undefined, TranslationFiles: any) => {
   let neededRessources: translatedRessource[][] = []
   if (!completeItem) throw Error("Item in calculateNeededRessources doesnt exist")
-  console.log(enchantmentequiv);
   if (!completeItem?.enchantments || enchantmentequiv == 0 || completeItem?.enchantments.enchantment.length == 0) {
     //calculate without enchantments
     calculateCraftingRequierments(TranslationFiles, completeItem.craftingrequirements, neededRessources)

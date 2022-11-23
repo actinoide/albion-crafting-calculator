@@ -83,6 +83,5 @@ ipcMain.handle('onCalculateBtnClick', (event, enchantmentequiv: number, category
   if (!completeCategory) throw Error("cat not found")
   let results: translatedRessource[][][] = []
   results = calculateAlternative(completeItem, completeCategory, enchantmentequiv, TranslationFiles)
-  console.log(results);
   return results;
 })

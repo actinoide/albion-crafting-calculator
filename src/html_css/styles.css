@@ -43,4 +43,6 @@
 .subWide{
   grid-column-start: 1;
   grid-column-end: 2;
+  display: grid;
+  columns: 2;
 }

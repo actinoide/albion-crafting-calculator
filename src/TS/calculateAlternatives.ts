@@ -31,7 +31,6 @@ const calculateEnchantments = (tier: number, enchantment: number, item: item, ca
   tier++
   enchantment--
   while (enchantment >= 0 && tier <= 8) {
-    console.log("index:" + index);
     results.push(calculateNeededRessources(enchantment, category.items.at(category.items.indexOf(item) + index), TranslationFiles))
     enchantment--
     tier++
@@ -41,7 +40,6 @@ const calculateEnchantments = (tier: number, enchantment: number, item: item, ca
   enchantment2++
   let index2 = 1
   while (enchantment2 <= 3 && tier2 >= 4) {
-    console.log("index2:" + index2);
     results.push(calculateNeededRessources(enchantment2, category.items.at(category.items.indexOf(item) - index2), TranslationFiles))
     enchantment2++
     tier2--
