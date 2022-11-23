@@ -90,7 +90,7 @@ CalculatePrizeButton?.addEventListener("click", (ev: MouseEvent) => {
     let tierString = ""
     if (tierObject?.ariaValueText) {
       let tierText = tierObject.ariaValueText.charAt(tierObject.ariaValueText.length - 1)
-      if (!(tierText == "1" || tierText == "2" || tierText == "3")) {
+      if (!(tierText == "1" || tierText == "2" || tierText == "3"|| tierText =="4")) {
         tierText = "0"
       }
       tierString = tierObject.ariaValueText.substring(0, 2) + "." + tierText

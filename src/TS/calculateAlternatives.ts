@@ -39,7 +39,7 @@ const calculateEnchantments = (tier: number, enchantment: number, item: item, ca
   tier2--
   enchantment2++
   let index2 = 1
-  while (enchantment2 <= 3 && tier2 >= 4) {
+  while (enchantment2 <= 4 && tier2 >= 4) {
     results.push(calculateNeededRessources(enchantment2, category.items.at(category.items.indexOf(item) - index2), TranslationFiles))
     enchantment2++
     tier2--
