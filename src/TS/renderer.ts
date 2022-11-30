@@ -6,6 +6,11 @@ const enchantmentequiv = document.getElementById("enchantment-equiv") as HTMLSel
 const container = document.getElementById("container") as HTMLDivElement
 const CalculatePrizeButton = document.getElementById("CalculatePrizeButton") as HTMLButtonElement
 const outContainer = document.getElementById("outContainer") as HTMLDivElement
+const nutritionCost = document.getElementById("nutritionCost") as HTMLInputElement
+const extraInputs = document.getElementById("extraInputs") as HTMLDivElement
+const bonusEventText = document.getElementById("bonusEventText") as HTMLDivElement
+const bonusEvent = document.getElementById("bonusEvent") as HTMLSelectElement
+const craftingLocation = document.getElementById("craftingLocation") as HTMLSelectElement
 
 item_categories_from_main.then((value) => {
   value.forEach((type) => {
@@ -52,7 +57,7 @@ findbtn.addEventListener("click", (ev: MouseEvent) => {
           element3.ariaValueText = value3.name
           element3.className = "subItem"
           let element2 = document.createElement("input")
-          element2.inputMode = "number"
+          element2.type = "number"
           element2.id = "cost" + value3.count
           element2.className = "subBox"
           element.appendChild(element3)
@@ -65,6 +70,15 @@ findbtn.addEventListener("click", (ev: MouseEvent) => {
     if (CalculatePrizeButton) {
       CalculatePrizeButton.hidden = false
     }
+    if (extraInputs) {
+      extraInputs.hidden = false
+      index = 0
+      while (index < extraInputs.children.length) {
+        let child = extraInputs.children.item(index) as HTMLElement
+        child.hidden = false
+        index++
+      }
+    }
   })
 })
 
@@ -76,31 +90,28 @@ CalculatePrizeButton?.addEventListener("click", (ev: MouseEvent) => {
     if (!child) throw Error("this shouldnt happen(child doesnt exist)")
     let index2 = 0
     let cost = 0
-    while (index2 < child.children.length) {
-      let subChild = child.children.item(index2) as HTMLInputElement
-      if (subChild?.id.startsWith("cost")) {
-        try {
-          cost += (subChild.value as unknown as number) * (subChild.id.replace("cost", "") as unknown as number)
-        }
-        catch { }
-      }
-      index2++
-    }
     let tierObject = child.children.item(0)
     let tierString = ""
     if (tierObject?.ariaValueText) {
       let tierText = tierObject.ariaValueText.charAt(tierObject.ariaValueText.length - 1)
-      if (!(tierText == "1" || tierText == "2" || tierText == "3"|| tierText =="4")) {
+      if (!(tierText == "1" || tierText == "2" || tierText == "3" || tierText == "4")) {
         tierText = "0"
       }
       tierString = tierObject.ariaValueText.substring(0, 2) + "." + tierText
     } else {
       tierString = "??.?"
     }
+    while (index2 < child.children.length) {
+      let subChild = child.children.item(index2) as HTMLInputElement
+      if (subChild?.id.startsWith("cost")) {
+        cost += (subChild.value as unknown as number) * (subChild.id.replace("cost", "") as unknown as number)
+        //cost += Math.pow(2, ((tierString.charAt(1) as unknown as number) * 1) + ((tierString.charAt(3) as unknown as number) * 1)) * (subChild.id.replace("cost", "") as unknown as number) * 0.1125 * ((nutritionCost.value as unknown as number) / 100)
+      }
+      index2++
+    }
     costs.push({ cost, tier: tierString })
     index++
   }
-  console.log(costs);
   while (0 < outContainer.children.length) {
     if (outContainer.firstChild) {
       outContainer.removeChild(outContainer.firstChild)
@@ -109,7 +120,7 @@ CalculatePrizeButton?.addEventListener("click", (ev: MouseEvent) => {
   costs.forEach((cost) => {
     let tierElement = document.createElement("div")
     tierElement.textContent = cost.tier + ":"
-    tierElement.className= "subItem"
+    tierElement.className = "subItem"
     let numberElemenent = document.createElement("div")
     numberElemenent.textContent = cost.cost as unknown as string
     numberElemenent.className = "subBox"

@@ -26,6 +26,28 @@
     <button id="findbtn">find options</button>
   </div>
   <div class="grid" id="container"></div>
+  <div class="grid" id="extraInputs" hidden="true">
+    <div class="subitem" hidden="true">cost per 100 nutrition:</div>
+    <input class="subbox" type="number" id="nutritionCost" hidden="true"></input>
+    <div class="subitem" hidden="true">crafting location:</div>
+    <select class="subbox" hidden="true" id="craftingLocation">
+      <option value="royalCity">Royal city</option>
+      <option value="royalCity+Bonus">Royal city with Bonus</option>
+      <option value="royalIsland">Royal Island</option>
+      <option value="royalIsland+Bonus">Royal Island with bonus</option>
+      <option value="blackZoneHideout">black zone hideout</option>
+    </select>
+    <div class="subitem" hidden="true">using Focus?</div>
+    <select id="usingFocus" hidden="true" class=subbox>
+      <option value="false">no</option>
+      <option value="true">yes</option>
+    </select>
+    <div class="subitem" hidden="true" id="bonusEventText">active bonus event?</div>
+    <select hidden="true" id="bonusEvent" class="subbox">
+      <option value="false">no</option>
+      <option value="true">yes</option>
+    </select>
+  </div>
   <button id="CalculatePrizeButton" hidden="true">Calculate</button>
   <div class="grid" id="outContainer"></div>
   <script src="../../JS_out/renderer.js"></script>
