@@ -11,6 +11,7 @@ const extraInputs = document.getElementById("extraInputs") as HTMLDivElement
 const bonusEventText = document.getElementById("bonusEventText") as HTMLDivElement
 const bonusEvent = document.getElementById("bonusEvent") as HTMLSelectElement
 const craftingLocation = document.getElementById("craftingLocation") as HTMLSelectElement
+const usingFocus = document.getElementById("usingFocus") as HTMLSelectElement
 
 item_categories_from_main.then((value) => {
   value.forEach((type) => {
@@ -86,6 +87,10 @@ findbtn.addEventListener("click", (ev: MouseEvent) => {
 CalculatePrizeButton?.addEventListener("click", async (ev: MouseEvent) => {
   let index = 0
   let costs: { cost: number, tier: string }[] = []
+  let localProductionBonus: number = 0
+  localProductionBonus += craftingLocation.value as unknown as number * 1
+  localProductionBonus += usingFocus.value as unknown as number * 1
+  localProductionBonus += bonusEvent.value as unknown as number * 1
   while (index < container.children.length) {
     let child = container.children.item(index)
     if (!child) throw Error("this shouldnt happen(child doesnt exist)")
@@ -105,7 +110,7 @@ CalculatePrizeButton?.addEventListener("click", async (ev: MouseEvent) => {
     while (index2 < child.children.length) {
       let subChild = child.children.item(index2) as HTMLInputElement
       if (subChild?.id.startsWith("cost")) {
-        cost += await window.electronAPI.calculatePrize(subChild.value as unknown as number, subChild.id.replace("cost", "") as unknown as number, subChild.ariaValueText, nutritionCost.value as unknown as number)
+        cost += await window.electronAPI.calculatePrize(subChild.value as unknown as number, subChild.id.replace("cost", "") as unknown as number, subChild.ariaValueText, nutritionCost.value as unknown as number, localProductionBonus)
       }
       index2++
     }

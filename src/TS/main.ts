@@ -16,7 +16,7 @@ declare global {
       onload: () => Promise<itemType[]>
       onItemCategorySelected: (category: string) => Promise<itemType>
       onCalculateBtnClick: (enchantmentequiv: number, category: string, item: string) => Promise<translatedRessource[][][]>
-      calculatePrize: (value: number, count: number, name: string | null, nutritionCost: number) => Promise<number>
+      calculatePrize: (value: number, count: number, name: string | null, nutritionCost: number, localProductionBonus: number) => Promise<number>
     }
   }
 }
@@ -88,14 +88,19 @@ ipcMain.handle('onCalculateBtnClick', (event, enchantmentequiv: number, category
   return results;
 })
 
-ipcMain.handle("calculatePrize", (event, value: number, count: number, name: string | null, nutritionCost: number) => {
+ipcMain.handle("calculatePrize", (event, value: number, count: number, name: string | null, nutritionCost: number, localProductionBonus: number) => {
   if (!name) return 0
   let item = completeItemFiles.items.simpleitem.find((item: any) => {
     if (item.uniquename == name) return true
     else return false
   })
+  let resourceReturnRate = 1 - 1 / (1 + (localProductionBonus / 100))
+  console.log(resourceReturnRate + "      " + localProductionBonus);
   let cost: number = 0
   cost += item.itemvalue * 0.1125 * (nutritionCost / 100) * count
   cost += value * count
+  if(!(item.shopcategory == "artefact")){
+  cost = cost * (1 - resourceReturnRate)
+  }
   return cost
 })
