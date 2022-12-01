@@ -58,6 +58,7 @@ findbtn.addEventListener("click", (ev: MouseEvent) => {
           element3.className = "subItem"
           let element2 = document.createElement("input")
           element2.type = "number"
+          element2.ariaValueText = value3.name
           element2.id = "cost" + value3.count
           element2.className = "subBox"
           element.appendChild(element3)
@@ -82,7 +83,7 @@ findbtn.addEventListener("click", (ev: MouseEvent) => {
   })
 })
 
-CalculatePrizeButton?.addEventListener("click", (ev: MouseEvent) => {
+CalculatePrizeButton?.addEventListener("click", async (ev: MouseEvent) => {
   let index = 0
   let costs: { cost: number, tier: string }[] = []
   while (index < container.children.length) {
@@ -104,8 +105,7 @@ CalculatePrizeButton?.addEventListener("click", (ev: MouseEvent) => {
     while (index2 < child.children.length) {
       let subChild = child.children.item(index2) as HTMLInputElement
       if (subChild?.id.startsWith("cost")) {
-        cost += (subChild.value as unknown as number) * (subChild.id.replace("cost", "") as unknown as number)
-        //cost += Math.pow(2, ((tierString.charAt(1) as unknown as number) * 1) + ((tierString.charAt(3) as unknown as number) * 1)) * (subChild.id.replace("cost", "") as unknown as number) * 0.1125 * ((nutritionCost.value as unknown as number) / 100)
+        cost += await window.electronAPI.calculatePrize(subChild.value as unknown as number, subChild.id.replace("cost", "") as unknown as number, subChild.ariaValueText, nutritionCost.value as unknown as number)
       }
       index2++
     }

@@ -61,6 +61,7 @@ interface itemType {
   items: {
     name: string,
     translatedName: string
+    itemvalue: number
     craftingrequirements: {
       silver: number,
       craftingfocus: number,
@@ -91,6 +92,7 @@ craftableitemcategories.forEach(cat => {
   let temps: {
     name: string,
     translatedName: string
+    itemvalue: number
     craftingrequirements: {
       silver: number,
       craftingfocus: number,
@@ -124,7 +126,7 @@ craftableitemcategories.forEach(cat => {
       else return false
     })
     if (Item.shopsubcategory1 === cat) {
-      temps.push({ name: Item.uniquename, translatedName: translatedname.LocalizedNames.ENUS, craftingrequirements: Item.craftingrequirements ,enchantments:Item.enchantments})
+      temps.push({ itemvalue: Item.itemvalue, name: Item.uniquename, translatedName: translatedname.LocalizedNames.ENUS, craftingrequirements: Item.craftingrequirements, enchantments: Item.enchantments })
     }
   });
   if (!sorteditems) {

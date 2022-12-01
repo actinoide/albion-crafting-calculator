@@ -16,6 +16,7 @@ declare global {
       onload: () => Promise<itemType[]>
       onItemCategorySelected: (category: string) => Promise<itemType>
       onCalculateBtnClick: (enchantmentequiv: number, category: string, item: string) => Promise<translatedRessource[][][]>
+      calculatePrize: (value: number, count: number, name: string | null, nutritionCost: number) => Promise<number>
     }
   }
 }
@@ -24,6 +25,7 @@ let winid = 0
 let win: BrowserWindow
 let ItemFiles = readItemFiles("./dev_files/Item_categories.json") as itemType[]
 let TranslationFiles = readItemFiles("./dev_files/ItemList.json")
+let completeItemFiles = readItemFiles("./dev_files/items.json")
 
 // creates the window used by the process
 const CreateWindow = () => {
@@ -84,4 +86,16 @@ ipcMain.handle('onCalculateBtnClick', (event, enchantmentequiv: number, category
   let results: translatedRessource[][][] = []
   results = calculateAlternative(completeItem, completeCategory, enchantmentequiv, TranslationFiles)
   return results;
+})
+
+ipcMain.handle("calculatePrize", (event, value: number, count: number, name: string | null, nutritionCost: number) => {
+  if (!name) return 0
+  let item = completeItemFiles.items.simpleitem.find((item: any) => {
+    if (item.uniquename == name) return true
+    else return false
+  })
+  let cost: number = 0
+  cost += item.itemvalue * 0.1125 * (nutritionCost / 100) * count
+  cost += value * count
+  return cost
 })
