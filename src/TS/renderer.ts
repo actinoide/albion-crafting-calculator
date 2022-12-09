@@ -60,7 +60,11 @@ findbtn.addEventListener("click", (ev: MouseEvent) => {
           let element2 = document.createElement("input")
           element2.type = "number"
           element2.ariaValueText = value3.name
-          element2.id = "cost" + value3.count
+          if (value3.name.includes("ARTEFACT_TOKEN_FAVOR_")) {
+            element2.id = "repeat" + value3.count
+          } else {
+            element2.id = "cost" + value3.count
+          }
           element2.className = "subBox"
           element.appendChild(element3)
           element.appendChild(element2)
@@ -111,6 +115,10 @@ CalculatePrizeButton?.addEventListener("click", async (ev: MouseEvent) => {
       let subChild = child.children.item(index2) as HTMLInputElement
       if (subChild?.id.startsWith("cost")) {
         cost += await window.electronAPI.calculatePrize(subChild.value as unknown as number, subChild.id.replace("cost", "") as unknown as number, subChild.ariaValueText, nutritionCost.value as unknown as number, localProductionBonus)
+      }
+      if (subChild.id.startsWith("repeat")) {
+        let oldChild = container.children.item(index - 1)?.children.item(index2) as HTMLInputElement
+        cost += await window.electronAPI.calculatePrize(subChild.value as unknown as number, subChild.id.replace("repeat", "") as unknown as number, oldChild.ariaValueText, nutritionCost.value as unknown as number, localProductionBonus)
       }
       index2++
     }

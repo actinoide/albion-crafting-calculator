@@ -95,7 +95,6 @@ ipcMain.handle("calculatePrize", (event, value: number, count: number, name: str
     else return false
   })
   let resourceReturnRate = 1 - 1 / (1 + (localProductionBonus / 100))
-  console.log(resourceReturnRate + "      " + localProductionBonus);
   let cost: number = 0
   cost += item.itemvalue * 0.1125 * (nutritionCost / 100) * count
   cost += value * count
