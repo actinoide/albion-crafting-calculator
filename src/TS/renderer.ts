@@ -13,6 +13,7 @@ const bonusEvent = document.getElementById("bonusEvent") as HTMLSelectElement
 const craftingLocation = document.getElementById("craftingLocation") as HTMLSelectElement
 const usingFocus = document.getElementById("usingFocus") as HTMLSelectElement
 
+//waits for the needed information from main and initializes the ui.
 item_categories_from_main.then((value) => {
   value.forEach((type) => {
     let element = document.createElement("option")
@@ -23,6 +24,7 @@ item_categories_from_main.then((value) => {
   })
 })
 
+//when a category is selected the contained items are requested from main.
 Item_categories.addEventListener("input", async () => {
   while (Items.length > 0) {
     Items.remove(0)
@@ -37,42 +39,46 @@ Item_categories.addEventListener("input", async () => {
   })
 })
 
+//finds the crafting options for the selected item and displays them.
 findbtn.addEventListener("click", (ev: MouseEvent) => {
   let result = window.electronAPI.onCalculateBtnClick(enchantmentequiv.value as unknown as number, Item_categories.value, Items.value)
   result.then((value) => {
+    //empties container before new items are added.
     while (container.children.length > 0) {
       if (container.firstChild == undefined) continue
       container.removeChild(container.firstChild)
     }
+    //iterates through the results and creates needed elements.
     let index: number = 1
-    value.forEach((value_1) => {
-      value_1.forEach(value2 => {
-        let element = document.createElement("div")
-        element.className = "subWide"
-        element.innerText = index + ". option:"
-        element.id = "spacer"
+    value.forEach((value1) => {
+      value1.forEach(value2 => {
+        let spacer = document.createElement("div")
+        spacer.className = "subWide"
+        spacer.innerText = index + ". option:"
+        spacer.id = "spacer"
         value2.forEach(value3 => {
-          let element3 = document.createElement("div")
-          element3.innerText = value3.count + "x " + value3.translatedName
-          element3.id = "name"
-          element3.ariaValueText = value3.name
-          element3.className = "subItem"
-          let element2 = document.createElement("input")
-          element2.type = "number"
-          element2.ariaValueText = value3.name
+          let textElement = document.createElement("div")
+          textElement.innerText = value3.count + "x " + value3.translatedName
+          textElement.id = "name"
+          textElement.ariaValueText = value3.name
+          textElement.className = "subItem"
+          let inputElement = document.createElement("input")
+          inputElement.type = "number"
+          inputElement.ariaValueText = value3.name
           if (value3.name.includes("ARTEFACT_TOKEN_FAVOR_")) {
-            element2.id = "repeat" + value3.count
+            inputElement.id = "repeat" + value3.count
           } else {
-            element2.id = "cost" + value3.count
+            inputElement.id = "cost" + value3.count
           }
-          element2.className = "subBox"
-          element.appendChild(element3)
-          element.appendChild(element2)
+          inputElement.className = "subBox"
+          spacer.appendChild(textElement)
+          spacer.appendChild(inputElement)
         })
-        container.appendChild(element)
+        container.appendChild(spacer)
         index++
       })
     })
+    //shows precoded objects that could be hidden before.
     if (CalculatePrizeButton) {
       CalculatePrizeButton.hidden = false
     }
@@ -88,6 +94,7 @@ findbtn.addEventListener("click", (ev: MouseEvent) => {
   })
 })
 
+//calculates the costs of the currently shown items and displays them.
 CalculatePrizeButton?.addEventListener("click", async (ev: MouseEvent) => {
   let index = 0
   let costs: { cost: number, tier: string }[] = []
@@ -95,6 +102,7 @@ CalculatePrizeButton?.addEventListener("click", async (ev: MouseEvent) => {
   localProductionBonus += craftingLocation.value as unknown as number * 1
   localProductionBonus += usingFocus.value as unknown as number * 1
   localProductionBonus += bonusEvent.value as unknown as number * 1
+  //iterates through the items.
   while (index < container.children.length) {
     let child = container.children.item(index)
     if (!child) throw Error("this shouldnt happen(child doesnt exist)")
@@ -111,6 +119,7 @@ CalculatePrizeButton?.addEventListener("click", async (ev: MouseEvent) => {
     } else {
       tierString = "??.?"
     }
+    //iterates through ressources needed for each item.
     while (index2 < child.children.length) {
       let subChild = child.children.item(index2) as HTMLInputElement
       if (subChild?.id.startsWith("cost")) {
@@ -125,11 +134,13 @@ CalculatePrizeButton?.addEventListener("click", async (ev: MouseEvent) => {
     costs.push({ cost, tier: tierString })
     index++
   }
+  //empties outContainer.
   while (0 < outContainer.children.length) {
     if (outContainer.firstChild) {
       outContainer.removeChild(outContainer.firstChild)
     }
   }
+  //displays the calculated costs.
   costs.forEach((cost) => {
     let tierElement = document.createElement("div")
     tierElement.textContent = cost.tier + ":"

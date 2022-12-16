@@ -27,7 +27,9 @@ let ItemFiles = readItemFiles("./dev_files/Item_categories.json") as itemType[]
 let TranslationFiles = readItemFiles("./dev_files/ItemList.json")
 let completeItemFiles = readItemFiles("./dev_files/items.json")
 
-// creates the window used by the process
+/**
+ * creates a window with index.html.
+ */
 const CreateWindow = () => {
   win = new BrowserWindow({
     width: 800,
@@ -45,7 +47,7 @@ const CreateWindow = () => {
   })
 }
 
-//loads a window when necesary
+//loads a window when necesary.
 app.whenReady().then(() => {
   CreateWindow()
   app.on('activate', () => {
@@ -53,15 +55,17 @@ app.whenReady().then(() => {
   })
 })
 
-//closes the program when all windows are closed
+//closes the program when all windows are closed.
 app.on("window-all-closed", () => {
   if (process.platform !== 'darwin') app.quit()
 })
 
+//sends neccesary information to renderer on startup.
 ipcMain.handle('onload', (event) => {
   return ItemFiles
 })
 
+//sends the category to the renderer when the user selects one.
 ipcMain.handle('onItemCategorySelected', (event, category: string) => {
   category = category.replace(" ", "_")
   return ItemFiles.find((value) => {
@@ -70,6 +74,7 @@ ipcMain.handle('onItemCategorySelected', (event, category: string) => {
   })
 })
 
+// finds and sends crafting options for the desired item to the renderer.
 ipcMain.handle('onCalculateBtnClick', (event, enchantmentequiv: number, category: string, inputItem: string) => {
   //looks up category and item based on their names
   category = category.replace(" ", "_")
@@ -82,12 +87,11 @@ ipcMain.handle('onCalculateBtnClick', (event, enchantmentequiv: number, category
     else return false
   })
   if (!completeItem) throw Error("item not found")
-  if (!completeCategory) throw Error("cat not found")
-  let results: translatedRessource[][][] = []
-  results = calculateAlternative(completeItem, completeCategory, enchantmentequiv, TranslationFiles)
-  return results;
+  if (!completeCategory) throw Error("category not found")
+  return calculateAlternative(completeItem, completeCategory, enchantmentequiv, TranslationFiles)
 })
 
+//calculates the costs with the values specified by the user and sends the result back to renderer. 
 ipcMain.handle("calculatePrize", (event, value: number, count: number, name: string | null, nutritionCost: number, localProductionBonus: number) => {
   if (!name) return 0
   let item = completeItemFiles.items.simpleitem.find((item: any) => {
@@ -98,8 +102,8 @@ ipcMain.handle("calculatePrize", (event, value: number, count: number, name: str
   let cost: number = 0
   cost += item.itemvalue * 0.1125 * (nutritionCost / 100) * count
   cost += value * count
-  if(!(item.shopcategory == "artefact")){
-  cost = cost * (1 - resourceReturnRate)
+  if (!(item.shopcategory == "artefact")) {
+    cost = cost * (1 - resourceReturnRate)
   }
   return cost
 })

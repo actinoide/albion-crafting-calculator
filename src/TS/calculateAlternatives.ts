@@ -3,6 +3,10 @@ import { item } from "./structs/item";
 import { itemType } from "./structs/itemType";
 import { translatedRessource } from "./structs/translatedRessource";
 
+/**
+ * @param TranslationFiles should be the .json parsed ItemList file.
+ * @returns alternative ways to craft items with the same itempower.
+ */
 export const calculateAlternative = (item: item, category: itemType, enchantment: number, TranslationFiles: any) => {
   let results: translatedRessource[][][] = []
   if (item.name.startsWith("T4")) {

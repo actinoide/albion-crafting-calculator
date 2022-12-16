@@ -1,8 +1,9 @@
 import fetch from 'electron-fetch';
+
 /**
- * attempts to make an api call to the specified url.
- * @throws error if the api fails to return or returns a code outside the 200 range
- * @throws error if the api does not return readable json 
+ * @returns the json returned by the specified api.
+ * @throws error if the api fails to return or returns a code outside the 200 range.
+ * @throws error if the api does not return readable json.
  */
 export const makeApiCall = async (siteUrl: string): Promise<JSON> => {
   let result = await fetch(siteUrl)

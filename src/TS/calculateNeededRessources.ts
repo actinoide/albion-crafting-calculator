@@ -5,6 +5,10 @@ import { item } from "./structs/item"
 import { craftingrequirement } from "./structs/craftingrequirement"
 import { craftResource } from "./structs/craftResource"
 
+/**
+ * @param TranslationFiles should be the json parsed ItemList file.
+ * @returns the ressources needed to craft the specified item. 
+ */
 export let calculateNeededRessources = (enchantmentequiv: number, completeItem: item | undefined, TranslationFiles: any) => {
   let neededRessources: translatedRessource[][] = []
   if (!completeItem) throw Error("Item in calculateNeededRessources doesnt exist")
