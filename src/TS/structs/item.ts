@@ -9,7 +9,7 @@ export interface item {
   enchantments: {
     enchantment: {
       enchantmentlevel: number;
-      craftingrequirements: craftingrequirement[];
+      craftingrequirements: craftingrequirement[] | craftingrequirement;
     }[];
   };
 }

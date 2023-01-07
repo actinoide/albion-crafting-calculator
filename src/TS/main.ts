@@ -17,7 +17,7 @@ declare global {
       onItemCategorySelected: (category: string) => Promise<itemType>
       onCalculateBtnClick: (enchantmentequiv: number, category: string, item: string) => Promise<translatedRessource[][][]>
       calculatePrize: (value: number, count: number, name: string | null, nutritionCost: number, localProductionBonus: number) => Promise<number>
-      calculateFocus: (usingFocus: boolean) => Promise<number>
+      calculateFocus: (usingFocus: boolean, enchantmentequiv: number) => Promise<number>
     }
   }
 }
@@ -111,14 +111,22 @@ ipcMain.handle("calculatePrize", (event, value: number, count: number, name: str
   return cost
 })
 
-ipcMain.handle("calculateFocus", (event,usingFocus: boolean) => {
+ipcMain.handle("calculateFocus", (event, usingFocus: boolean, enchantmentequiv: number) => {
   console.log(selectedItem.craftingrequirements);
+  if (!usingFocus) return 0
   let focus: number = 0// this part should be refactored out of the costs method and made into its own callable alternative
-  if (usingFocus) {
+  if (enchantmentequiv == 0) {
     if (Array.isArray(selectedItem.craftingrequirements)) {
       focus = selectedItem.craftingrequirements[0].craftingfocus
     } else {
       focus = selectedItem.craftingrequirements.craftingfocus
+    }
+  } else {
+    let enchantedRequirments = selectedItem.enchantments.enchantment[enchantmentequiv - 1].craftingrequirements
+    if (Array.isArray(enchantedRequirments)) {
+      focus = enchantedRequirments[0].craftingfocus
+    } else {
+      focus = enchantedRequirments.craftingfocus
     }
   }
   return focus

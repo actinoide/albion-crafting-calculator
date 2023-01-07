@@ -133,7 +133,7 @@ CalculatePrizeButton?.addEventListener("click", async (ev: MouseEvent) => {
     }
     let calcUsingFocus: boolean = false
     if (usingFocus.value == "59") calcUsingFocus = true
-    let focus: number = await window.electronAPI.calculateFocus(calcUsingFocus)
+    let focus: number = await window.electronAPI.calculateFocus(calcUsingFocus, enchantmentequiv.value as unknown as number)
     costs.push({ cost, focus, tier: tierString })
     index++
   }
