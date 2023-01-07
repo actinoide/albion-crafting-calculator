@@ -97,7 +97,7 @@ findbtn.addEventListener("click", (ev: MouseEvent) => {
 //calculates the costs of the currently shown items and displays them.
 CalculatePrizeButton?.addEventListener("click", async (ev: MouseEvent) => {
   let index = 0
-  let costs: { cost: number, tier: string }[] = []
+  let costs: { cost: number, focus: number, tier: string }[] = []
   let localProductionBonus: number = 0
   localProductionBonus += craftingLocation.value as unknown as number * 1
   localProductionBonus += usingFocus.value as unknown as number * 1
@@ -131,7 +131,10 @@ CalculatePrizeButton?.addEventListener("click", async (ev: MouseEvent) => {
       }
       index2++
     }
-    costs.push({ cost, tier: tierString })
+    let calcUsingFocus: boolean = false
+    if (usingFocus.value == "59") calcUsingFocus = true
+    let focus: number = await window.electronAPI.calculateFocus(calcUsingFocus)
+    costs.push({ cost, focus, tier: tierString })
     index++
   }
   //empties outContainer.
@@ -145,10 +148,16 @@ CalculatePrizeButton?.addEventListener("click", async (ev: MouseEvent) => {
     let tierElement = document.createElement("div")
     tierElement.textContent = cost.tier + ":"
     tierElement.className = "subItem"
+    outContainer.appendChild(tierElement)
     let numberElemenent = document.createElement("div")
     numberElemenent.textContent = cost.cost as unknown as string
     numberElemenent.className = "subBox"
-    outContainer.appendChild(tierElement)
     outContainer.appendChild(numberElemenent)
+    if (cost.focus != 0) {
+      let focusElement = document.createElement("div")
+      focusElement.textContent = cost.focus as unknown as string
+      focusElement.className = "subFocus"
+      outContainer.appendChild(focusElement)
+    }
   })
 })

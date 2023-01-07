@@ -17,6 +17,7 @@ declare global {
       onItemCategorySelected: (category: string) => Promise<itemType>
       onCalculateBtnClick: (enchantmentequiv: number, category: string, item: string) => Promise<translatedRessource[][][]>
       calculatePrize: (value: number, count: number, name: string | null, nutritionCost: number, localProductionBonus: number) => Promise<number>
+      calculateFocus: (usingFocus: boolean) => Promise<number>
     }
   }
 }
@@ -26,6 +27,7 @@ let win: BrowserWindow
 let ItemFiles = readItemFiles("./dev_files/Item_categories.json") as itemType[]
 let TranslationFiles = readItemFiles("./dev_files/ItemList.json")
 let completeItemFiles = readItemFiles("./dev_files/items.json")
+let selectedItem: item
 
 /**
  * creates a window with index.html.
@@ -88,6 +90,7 @@ ipcMain.handle('onCalculateBtnClick', (event, enchantmentequiv: number, category
   })
   if (!completeItem) throw Error("item not found")
   if (!completeCategory) throw Error("category not found")
+  selectedItem = completeItem
   return calculateAlternative(completeItem, completeCategory, enchantmentequiv, TranslationFiles)
 })
 
@@ -106,4 +109,17 @@ ipcMain.handle("calculatePrize", (event, value: number, count: number, name: str
     cost = cost * (1 - resourceReturnRate)
   }
   return cost
+})
+
+ipcMain.handle("calculateFocus", (event,usingFocus: boolean) => {
+  console.log(selectedItem.craftingrequirements);
+  let focus: number = 0// this part should be refactored out of the costs method and made into its own callable alternative
+  if (usingFocus) {
+    if (Array.isArray(selectedItem.craftingrequirements)) {
+      focus = selectedItem.craftingrequirements[0].craftingfocus
+    } else {
+      focus = selectedItem.craftingrequirements.craftingfocus
+    }
+  }
+  return focus
 })

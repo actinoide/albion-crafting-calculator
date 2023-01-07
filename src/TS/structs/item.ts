@@ -5,15 +5,11 @@ import { craftResource } from "./craftResource";
 export interface item {
   name: string;
   translatedName: string;
-  craftingrequirements: craftingrequirement[];
+  craftingrequirements: craftingrequirement[] | craftingrequirement;
   enchantments: {
     enchantment: {
       enchantmentlevel: number;
-      craftingrequirements: {
-        silver: number;
-        craftingfocus: number;
-        craftresource: craftResource[];
-      };
+      craftingrequirements: craftingrequirement[];
     }[];
   };
 }
