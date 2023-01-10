@@ -1,5 +1,7 @@
 import * as fs from "fs"
 import { join } from "path"
+import { itemType } from "./structs/itemType"
+import { item } from "./structs/item"
 
 // THIS FILE IS NOT FOR GENERIC USE AND SHOULD NOT BE DISTRIBUTED IN THE FINISHED PRODUCT.
 // IT IS USED TO GENERATE .json FILES WHICH WILL BE SHIPED.
@@ -8,29 +10,23 @@ import { join } from "path"
 let Items = JSON.parse(fs.readFileSync(join(__dirname, "../dev_files/Items.json"), "utf8"))
 let TranslatedItems = JSON.parse(fs.readFileSync(join(__dirname, "../dev_files/ItemList.json"), "utf8"))
 
-Items.items.consumableitem
-Items.items.equipmentitem
-Items.items.weapon
-Items.items.mount
-
-let craftableitems: any[] = []
-
-let getcraftableitems = (itemcategory: any) => {
-  itemcategory.forEach((consumable: any) => {
+let getcraftableitems = (itemcategory: any, craftableitems: any[]) => {
+  itemcategory.forEach((item: any) => {
     if (!craftableitems) {
-      craftableitemcategories = consumable
+      craftableitems = item
     } else {
-      craftableitems.push(consumable);
+      craftableitems.push(item);
     }
   });
 }
-getcraftableitems(Items.items.equipmentitem)
-getcraftableitems(Items.items.weapon)
-getcraftableitems(Items.items.consumableitem)
-getcraftableitems(Items.items.mount)
+
+let craftableitems: any[] = []
+getcraftableitems(Items.items.equipmentitem, craftableitems)
+getcraftableitems(Items.items.weapon, craftableitems)
+getcraftableitems(Items.items.consumableitem, craftableitems)
+getcraftableitems(Items.items.mount, craftableitems)
 
 let craftableitemcategories: string[] = []
-
 craftableitems.forEach(element => {
   if (element.shopsubcategory1.includes("unique")) return
   if (!craftableitemcategories.includes(element.shopsubcategory1)) {
@@ -41,8 +37,8 @@ craftableitems.forEach(element => {
     }
   }
 });
-let shopcats: string[] = [""]
 
+let shopcats: string[] = [""]
 Items.items.shopcategories.shopcategory.forEach((category: any) => {
   if (category.id = "melee" || "magic" || "ranged" || "offhand" || "armor" || "accessories" || "mounts" || "gatherergear" || "tools" || "consumables") {
     category.shopsubcategory.forEach((subcat: any) => {
@@ -55,66 +51,10 @@ Items.items.shopcategories.shopcategory.forEach((category: any) => {
   }
 });
 
-
-interface itemType {
-  name: string
-  items: {
-    name: string,
-    translatedName: string
-    itemvalue: number
-    craftingrequirements: {
-      silver: number,
-      craftingfocus: number,
-      craftresource: {
-        uniquename: string,
-        count: number
-      }[]
-    }
-    enchantments: {
-      enchantment: {
-        enchantmentlevel: number,
-        craftingrequirements: {
-          silver: number,
-          craftingfocus: number,
-          craftresource: {
-            uniquename: string,
-            count: number
-          }[]
-        }
-      }[]
-    }
-  }[]
-}
-
-let sorteditems: itemType[]// = [{ "name": "", "items": [] }]
+let sorteditems: itemType[]
 
 craftableitemcategories.forEach(cat => {
-  let temps: {
-    name: string,
-    translatedName: string
-    itemvalue: number
-    craftingrequirements: {
-      silver: number,
-      craftingfocus: number,
-      craftresource: {
-        uniquename: string,
-        count: number
-      }[]
-    }
-    enchantments: {
-      enchantment: {
-        enchantmentlevel: number,
-        craftingrequirements: {
-          silver: number,
-          craftingfocus: number,
-          craftresource: {
-            uniquename: string,
-            count: number
-          }[]
-        }
-      }[]
-    }
-  }[] = []
+  let temps: item[] = []
   craftableitems.forEach(Item => {
     if (Item.uniquename.includes("DEBUG")) return
     if (Item.uniquename.includes("PROTOTYPE")) return
@@ -126,12 +66,15 @@ craftableitemcategories.forEach(cat => {
       else return false
     })
     if (Item.shopsubcategory1 === cat) {
+      //@ts-ignore
       temps.push({ itemvalue: Item.itemvalue, name: Item.uniquename, translatedName: translatedname.LocalizedNames.ENUS, craftingrequirements: Item.craftingrequirements, enchantments: Item.enchantments })
     }
   });
   if (!sorteditems) {
+    //@ts-ignore
     sorteditems = [{ "name": cat, "items": temps }]
   } else {
+    //@ts-ignore
     sorteditems.push({ "name": cat, "items": temps })
   }
   temps = []
