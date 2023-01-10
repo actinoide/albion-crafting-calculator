@@ -10,11 +10,11 @@ import { craftResource } from "./structs/craftResource"
  * @returns the ressources needed to craft the specified item. 
  */
 export let calculateNeededRessources = (enchantmentequiv: number, completeItem: item | undefined, TranslationFiles: any) => {
-  let neededRessources: translatedRessource[][] = []
+  let translatedRessources: translatedRessource[][] = []
   if (!completeItem) throw Error("Item in calculateNeededRessources doesnt exist")
   if (!completeItem?.enchantments || enchantmentequiv == 0 || completeItem?.enchantments.enchantment.length == 0) {
     //calculate without enchantments
-    calculateCraftingRequierments(TranslationFiles, completeItem.craftingrequirements, neededRessources)
+    calculateCraftingRequierments(TranslationFiles, completeItem.craftingrequirements, translatedRessources)
   }
   else {
     //calculate with enchantments
@@ -26,10 +26,10 @@ export let calculateNeededRessources = (enchantmentequiv: number, completeItem: 
       throw Error("enchantment not found")
     }
     else {
-      calculateCraftingRequierments(TranslationFiles, enchantment.craftingrequirements, neededRessources)
+      calculateCraftingRequierments(TranslationFiles, enchantment.craftingrequirements, translatedRessources)
     }
   }
-  return neededRessources
+  return { translatedRessources, completeItem }
 }
 
 let calculateCraftingRequierments = (TranslationFiles: any, craftingrequirements: craftingrequirement[] | craftingrequirement, neededRessources: translatedRessource[][]) => {

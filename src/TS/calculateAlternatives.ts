@@ -8,7 +8,7 @@ import { translatedRessource } from "./structs/translatedRessource";
  * @returns alternative ways to craft items with the same itempower.
  */
 export const calculateAlternative = (item: item, category: itemType, enchantment: number, TranslationFiles: any) => {
-  let results: translatedRessource[][][] = []
+  let results: { translatedRessources: translatedRessource[][], completeItem: item }[] = []
   if (item.name.startsWith("T4")) {
     calculateEnchantments(4, enchantment, item, category, results, TranslationFiles)
   }
@@ -28,7 +28,7 @@ export const calculateAlternative = (item: item, category: itemType, enchantment
   return results
 }
 
-const calculateEnchantments = (tier: number, enchantment: number, item: item, category: itemType, results: translatedRessource[][][], TranslationFiles: any) => {
+const calculateEnchantments = (tier: number, enchantment: number, item: item, category: itemType, results: { translatedRessources: translatedRessource[][], completeItem: item }[], TranslationFiles: any) => {
   let index = 1
   let tier2 = tier
   let enchantment2 = enchantment

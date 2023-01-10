@@ -51,11 +51,12 @@ findbtn.addEventListener("click", (ev: MouseEvent) => {
     //iterates through the results and creates needed elements.
     let index: number = 1
     value.forEach((value1) => {
-      value1.forEach(value2 => {
+      value1.translatedRessources.forEach(value2 => {
         let spacer = document.createElement("div")
         spacer.className = "subWide"
         spacer.innerText = index + ". option:"
         spacer.id = "spacer"
+        spacer.ariaValueText = value1.completeItem.name
         value2.forEach(value3 => {
           let textElement = document.createElement("div")
           textElement.innerText = value3.count + "x " + value3.translatedName
@@ -133,7 +134,11 @@ CalculatePrizeButton?.addEventListener("click", async (ev: MouseEvent) => {
     }
     let calcUsingFocus: boolean = false
     if (usingFocus.value == "59") calcUsingFocus = true
-    let focus: number = await window.electronAPI.calculateFocus(calcUsingFocus, enchantmentequiv.value as unknown as number)
+    let itemName = child.ariaValueText
+    let focus: number = 0
+    if (itemName) {
+      focus = await window.electronAPI.calculateFocus(calcUsingFocus, tierString.charAt(3) as unknown as number, itemName)
+    }
     costs.push({ cost, focus, tier: tierString })
     index++
   }

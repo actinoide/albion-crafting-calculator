@@ -15,9 +15,9 @@ declare global {
       onContentChanged: (newContent: string | null | undefined) => Promise<string>
       onload: () => Promise<itemType[]>
       onItemCategorySelected: (category: string) => Promise<itemType>
-      onCalculateBtnClick: (enchantmentequiv: number, category: string, item: string) => Promise<translatedRessource[][][]>
+      onCalculateBtnClick: (enchantmentequiv: number, category: string, item: string) => Promise<{ translatedRessources: translatedRessource[][], completeItem: item }[]>
       calculatePrize: (value: number, count: number, name: string | null, nutritionCost: number, localProductionBonus: number) => Promise<number>
-      calculateFocus: (usingFocus: boolean, enchantmentequiv: number) => Promise<number>
+      calculateFocus: (usingFocus: boolean, enchantment: number, itemName: string) => Promise<number>
     }
   }
 }
@@ -27,7 +27,6 @@ let win: BrowserWindow
 let ItemFiles = readItemFiles("./dev_files/Item_categories.json") as itemType[]
 let TranslationFiles = readItemFiles("./dev_files/ItemList.json")
 let completeItemFiles = readItemFiles("./dev_files/items.json")
-let selectedItem: item
 
 /**
  * creates a window with index.html.
@@ -90,7 +89,6 @@ ipcMain.handle('onCalculateBtnClick', (event, enchantmentequiv: number, category
   })
   if (!completeItem) throw Error("item not found")
   if (!completeCategory) throw Error("category not found")
-  selectedItem = completeItem
   return calculateAlternative(completeItem, completeCategory, enchantmentequiv, TranslationFiles)
 })
 
@@ -111,18 +109,30 @@ ipcMain.handle("calculatePrize", (event, value: number, count: number, name: str
   return cost
 })
 
-ipcMain.handle("calculateFocus", (event, usingFocus: boolean, enchantmentequiv: number) => {
-  console.log(selectedItem.craftingrequirements);
+//calculates the required focus to craft the specified item and returns it.
+ipcMain.handle("calculateFocus", (event, usingFocus: boolean, enchantment: number,  itemName: String) => {
   if (!usingFocus) return 0
-  let focus: number = 0// this part should be refactored out of the costs method and made into its own callable alternative
-  if (enchantmentequiv == 0) {
-    if (Array.isArray(selectedItem.craftingrequirements)) {
-      focus = selectedItem.craftingrequirements[0].craftingfocus
+  let completeItem: item | undefined
+  ItemFiles.forEach((category) => {
+    let testitem = category.items.find((testitem) => {
+      if (testitem.name == itemName) return true
+      else return false
+    })
+    if (testitem) {
+      completeItem = testitem
+    }
+  })
+  console.log(completeItem);
+  if (!completeItem) return 0
+  let focus: number = 0
+  if (enchantment == 0) {
+    if (Array.isArray(completeItem.craftingrequirements)) {
+      focus = completeItem.craftingrequirements[0].craftingfocus
     } else {
-      focus = selectedItem.craftingrequirements.craftingfocus
+      focus = completeItem.craftingrequirements.craftingfocus
     }
   } else {
-    let enchantedRequirments = selectedItem.enchantments.enchantment[enchantmentequiv - 1].craftingrequirements
+    let enchantedRequirments = completeItem.enchantments.enchantment[enchantment - 1].craftingrequirements
     if (Array.isArray(enchantedRequirments)) {
       focus = enchantedRequirments[0].craftingfocus
     } else {
