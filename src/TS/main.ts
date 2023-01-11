@@ -122,7 +122,6 @@ ipcMain.handle("calculateFocus", (event, usingFocus: boolean, enchantment: numbe
       completeItem = testitem
     }
   })
-  console.log(completeItem);
   if (!completeItem) return 0
   let focus: number = 0
   if (enchantment == 0) {
