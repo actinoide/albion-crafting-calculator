@@ -1,6 +1,6 @@
-const Item_categories = document.getElementById("category") as HTMLSelectElement;
+const ItemCategories = document.getElementById("category") as HTMLSelectElement;
 const Items = document.getElementById("Items") as HTMLSelectElement;
-const item_categories_from_main = window.electronAPI.onload();
+const itemCategoriesFromMain = window.electronAPI.onload();
 const findbtn = document.getElementById("findbtn") as HTMLButtonElement;
 const enchantmentequiv = document.getElementById("enchantment-equiv") as HTMLSelectElement;
 const container = document.getElementById("container") as HTMLDivElement;
@@ -14,22 +14,22 @@ const craftingLocation = document.getElementById("craftingLocation") as HTMLSele
 const usingFocus = document.getElementById("usingFocus") as HTMLSelectElement;
 
 //waits for the needed information from main and initializes the ui.
-item_categories_from_main.then((value) => {
+itemCategoriesFromMain.then((value) => {
   value.forEach((type) => {
     let element = document.createElement("option");
     type.name = type.name.replace("_", " ");
     element.value = type.name;
     element.text = type.name;
-    Item_categories.add(element);
+    ItemCategories.add(element);
   });
 });
 
 //when a category is selected the contained items are requested from main.
-Item_categories.addEventListener("input", async () => {
+ItemCategories.addEventListener("input", async () => {
   while (Items.length > 0) {
     Items.remove(0);
   }
-  let items = await window.electronAPI.onItemCategorySelected(Item_categories.value);
+  let items = await window.electronAPI.onItemCategorySelected(ItemCategories.value);
   if (!items) return;
   items.items.forEach((value) => {
     let element = document.createElement("option");
@@ -41,7 +41,7 @@ Item_categories.addEventListener("input", async () => {
 
 //finds the crafting options for the selected item and displays them.
 findbtn.addEventListener("click", (ev: MouseEvent) => {
-  let result = window.electronAPI.onCalculateBtnClick(enchantmentequiv.value as unknown as number, Item_categories.value, Items.value);
+  let result = window.electronAPI.onCalculateBtnClick(enchantmentequiv.value as unknown as number, ItemCategories.value, Items.value);
   result.then((value) => {
     //empties container before new items are added.
     while (container.children.length > 0) {
