@@ -7,23 +7,23 @@
   <title>Document</title>
 </head>
 
-<body>
+<body class="body">
   <div class="grid">
-    <div class="enchantment-equiv-text">Enchantment:</div>
-    <select class="enchantment-equiv" id="enchantment-equiv">
+    <div class="text">Enchantment:</div>
+    <select class="select" id="enchantment-equiv">
       <option value="0">0</option>
       <option value="1">1</option>
       <option value="2">2</option>
       <option value="3">3</option>
       <option value="4">4</option>
     </select>
-    <div class="category-text">item category:</div>
-    <select class="category" id="category">
+    <div class="text">item category:</div>
+    <select class="select" id="category">
     </select>
-    <div class="Item-text">item:</div>
-    <select class="Items" id="Items">
+    <div class="text">item:</div>
+    <select class="select" id="Items">
     </select>
-    <button id="findbtn">find options</button>
+    <button id="findbtn" class="button">find options</button>
   </div>
   <div class="grid" id="container"></div>
   <div class="grid" id="extraInputs" hidden="true">
@@ -47,7 +47,7 @@
       <option value="10">yes</option>
     </select>
   </div>
-  <button id="CalculatePrizeButton" hidden="true">Calculate</button>
+  <button id="CalculatePrizeButton" hidden="true" class="button">Calculate</button>
   <div class="grid" id="outContainer"></div>
   <script src="../../JS_out/renderer.js"></script>
 </body>

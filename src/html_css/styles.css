@@ -1,36 +1,24 @@
+.body {
+  background-color: darkgrey;
+}
+
 .grid {
   display: grid;
   columns: 2;
 }
 
-.enchanment-equiv-text {
+.text {
   grid-column: 1;
-  grid-row: 1;
 }
 
-.enchantment-equiv {
+.select {
   grid-column: 2;
-  grid-row: 1;
+  background-color: lightgrey;
 }
 
-.category-text {
-  grid-column: 1;
-  grid-row: 2;
-}
-
-.category {
-  grid-column: 2;
-  grid-row: 2;
-}
-
-.Item-text {
-  grid-column: 1;
-  grid-row: 3;
-}
-
-.Items {
-  grid-column: 2;
-  grid-row: 3;
+.button {
+  border-color: darkgrey;
+  background-color: slategrey;
 }
 
 .subItem {
@@ -39,6 +27,13 @@
 
 .subBox {
   grid-column: 2;
+  border-color: darkgrey;
+  background-color: lightgrey;
+}
+
+.textSubBox {
+  grid-column: 2;
+  border-color: lightslategrey;
 }
 
 .subFocus {

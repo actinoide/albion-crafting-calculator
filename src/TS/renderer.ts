@@ -160,7 +160,7 @@ CalculatePrizeButton?.addEventListener("click", async (ev: MouseEvent) => {
     outContainer.appendChild(tierElement);
     let numberElemenent = document.createElement("div");
     numberElemenent.textContent = cost.cost as unknown as string;
-    numberElemenent.className = "subBox";
+    numberElemenent.className = "textSubBox";
     outContainer.appendChild(numberElemenent);
     if (cost.focus != 0) {
       let focusElement = document.createElement("div");
