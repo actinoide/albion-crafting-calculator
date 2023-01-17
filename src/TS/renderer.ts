@@ -48,6 +48,10 @@ findbtn.addEventListener("click", (ev: MouseEvent) => {
       if (container.firstChild == undefined) continue;
       container.removeChild(container.firstChild);
     }
+    while (outContainer.children.length > 0) {
+      if (outContainer.firstChild == undefined) continue;
+      outContainer.removeChild(outContainer.firstChild);
+    }
     //iterates through the results and creates needed elements.
     let index: number = 1;
     value.forEach((value1) => {
