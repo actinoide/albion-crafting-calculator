@@ -41,6 +41,9 @@ ItemCategories.addEventListener("input", async () => {
 
 //finds the crafting options for the selected item and displays them.
 findbtn.addEventListener("click", (ev: MouseEvent) => {
+  if (Items.children.length == 0) {
+    return;
+  }
   let result = window.electronAPI.onCalculateBtnClick(enchantmentequiv.value as unknown as number, ItemCategories.value, Items.value);
   result.then((value) => {
     //empties container before new items are added.
