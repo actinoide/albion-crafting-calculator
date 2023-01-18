@@ -3,10 +3,12 @@
   "version": "0.1.0",
   "main": "./JS_out/main.js",
   "devDependencies": {
+    "electron-builder": "^23.6.0",
     "electron": "^19.0.6"
   },
   "scripts": {
-    "start": "electron ."
+    "start": "electron .",
+    "app:dist": "electron-builder"
   },
   "author": "actinoide",
   "license": "ISC",
@@ -15,5 +17,13 @@
     "electron-fetch": "^1.7.4",
     "node-fetch": "^3.2.10",
     "path": "^0.12.7"
+  },
+  "build": {
+    "productName": "Albion Crafting Calculator",
+    "extraFiles":[
+      "dev_files/Item_categories.json",
+      "dev_files/ItemList.json",
+      "dev_files/Items.json"
+    ]    
   }
 }
