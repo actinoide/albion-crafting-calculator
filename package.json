@@ -8,7 +8,7 @@
   },
   "scripts": {
     "start": "electron .",
-    "app:dist": "electron-builder"
+    "build": "electron-builder"
   },
   "author": "actinoide",
   "license": "ISC",
@@ -21,9 +21,9 @@
   "build": {
     "productName": "Albion Crafting Calculator",
     "extraFiles":[
-      "dev_files/Item_categories.json",
-      "dev_files/ItemList.json",
-      "dev_files/Items.json"
+      "data/Item_categories.json",
+      "data/ItemList.json",
+      "data/Items.json"
     ]    
   }
 }
