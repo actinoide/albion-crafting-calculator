@@ -7,8 +7,8 @@ import { item } from "./structs/item"
 // IT IS USED TO GENERATE .json FILES WHICH WILL BE SHIPED.
 // THIS FILE IS A MESS 
 
-let Items = JSON.parse(fs.readFileSync(join(__dirname, "../dev_files/Items.json"), "utf8"))
-let TranslatedItems = JSON.parse(fs.readFileSync(join(__dirname, "../dev_files/ItemList.json"), "utf8"))
+let Items = JSON.parse(fs.readFileSync(join(__dirname, "../data/Items.json"), "utf8"))
+let TranslatedItems = JSON.parse(fs.readFileSync(join(__dirname, "../data/ItemList.json"), "utf8"))
 
 let getcraftableitems = (itemcategory: any, craftableitems: any[]) => {
   itemcategory.forEach((item: any) => {
@@ -80,4 +80,4 @@ craftableitemcategories.forEach(cat => {
   temps = []
 });
 //@ts-ignore
-fs.writeFileSync(join(__dirname, "../dev_files/Item_categories.json"), JSON.stringify(sorteditems))
+fs.writeFileSync(join(__dirname, "../data/Item_categories.json"), JSON.stringify(sorteditems))

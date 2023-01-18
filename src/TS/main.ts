@@ -24,9 +24,9 @@ declare global {
 
 let winid = 0
 let win: BrowserWindow
-let ItemFiles = readItemFiles("./dev_files/Item_categories.json") as itemType[]
-let TranslationFiles = readItemFiles("./dev_files/ItemList.json")
-let completeItemFiles = readItemFiles("./dev_files/items.json")
+let ItemFiles = readItemFiles("./data/Item_categories.json") as itemType[]
+let TranslationFiles = readItemFiles("./data/ItemList.json")
+let completeItemFiles = readItemFiles("./data/items.json")
 
 /**
  * creates a window with index.html.
