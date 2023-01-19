@@ -10,7 +10,7 @@ export const readItemFiles = (file: string): any => {
     itemData = JSON.parse(readFileSync(file, "utf8"))
   }
   catch {
-    throw new Error("Failed to read or parse file")
+    throw new Error("Failed to read or parse file, filepath:"+ file)
   }
   return itemData
 }
