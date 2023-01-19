@@ -26,7 +26,10 @@
   "build": {
     "appId": "app.actinoide.albion-crafting-calculator",
     "productName": "Albion Crafting Calculator",
-    "publish":"github",
+    "publish":{
+      "provider":"github",
+      "owner":"actinoide"
+    },
     "extraFiles": [
       "data/Item_categories.json",
       "data/ItemList.json",
