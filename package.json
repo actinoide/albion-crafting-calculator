@@ -19,6 +19,7 @@
     "path": "^0.12.7"
   },
   "build": {
+    "appId":"app.actinoide.albion-crafting-calculator",
     "productName": "Albion Crafting Calculator",
     "extraFiles":[
       "data/Item_categories.json",
