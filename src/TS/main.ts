@@ -1,5 +1,7 @@
 import { app, BrowserWindow, ipcMain } from "electron"
 import { join } from "path"
+import { autoUpdater } from "electron-updater"
+
 import { makeApiCall } from "./apiCalls"
 import { readItemFiles } from "./readItemFiles"
 import { itemType } from "./structs/itemType"
@@ -61,6 +63,8 @@ app.on("window-all-closed", () => {
   if (process.platform !== 'darwin') app.quit()
 })
 
+autoUpdater.checkForUpdatesAndNotify()
+
 //sends neccesary information to renderer on startup.
 ipcMain.handle('onload', (event) => {
   return ItemFiles
@@ -110,7 +114,7 @@ ipcMain.handle("calculatePrize", (event, value: number, count: number, name: str
 })
 
 //calculates the required focus to craft the specified item and returns it.
-ipcMain.handle("calculateFocus", (event, usingFocus: boolean, enchantment: number,  itemName: String) => {
+ipcMain.handle("calculateFocus", (event, usingFocus: boolean, enchantment: number, itemName: String) => {
   if (!usingFocus) return 0
   let completeItem: item | undefined
   ItemFiles.forEach((category) => {

@@ -2,9 +2,13 @@
   "name": "albion-crafting-calculator",
   "version": "0.1.0",
   "main": "./JS_out/main.js",
+  "repository": {
+    "type": "github",
+    "url": "https://github.com/actinoide/albion-crafting-calculator"
+  },
   "devDependencies": {
-    "electron-builder": "^23.6.0",
-    "electron": "^19.0.6"
+    "electron": "^19.0.6",
+    "electron-builder": "^23.6.0"
   },
   "scripts": {
     "start": "electron .",
@@ -15,16 +19,18 @@
   "description": "an app that can calculate the cost of crafting items in albion online.",
   "dependencies": {
     "electron-fetch": "^1.7.4",
+    "electron-updater": "^5.3.0",
     "node-fetch": "^3.2.10",
     "path": "^0.12.7"
   },
   "build": {
-    "appId":"app.actinoide.albion-crafting-calculator",
+    "appId": "app.actinoide.albion-crafting-calculator",
     "productName": "Albion Crafting Calculator",
-    "extraFiles":[
+    "publish":"github",
+    "extraFiles": [
       "data/Item_categories.json",
       "data/ItemList.json",
       "data/Items.json"
-    ]    
+    ]
   }
 }
