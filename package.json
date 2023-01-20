@@ -7,7 +7,7 @@
     "url": "https://github.com/actinoide/albion-crafting-calculator"
   },
   "devDependencies": {
-    "electron": "^19.0.6",
+    "electron": "^22.0.3",
     "electron-builder": "^23.6.0"
   },
   "scripts": {
